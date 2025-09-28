@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 import logging
+from Lstep_utils.main import main_BlockUser_flow
 
 # ログ設定
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -34,6 +35,27 @@ def send_notification():
     except Exception as e:
         logger.error(f"エラーが発生しました: {e}")
 
+    
+def send_notification_BlockUser():
+    """ブロックユーザーの通知を送信する関数"""
+    try:
+        logger.info("ブロックユーザーのチェックを開始します")
+        user_list=main_BlockUser_flow()
+        message="[通知]新規にブロックされたユーザー\n"
+        for user in user_list:
+            message+=f"名前:{user[0]}\n MenberId:{user[1]}\n\n"
+            if len(message) > 4600:
+                send_message(line_group_id,message,line_channel_access_token)
+                message="[通知]新規にブロックされたユーザー（続き）\n"
+        if len(message) > len("[通知]新規にブロックされたユーザー（続き）\n"):
+            send_message(line_group_id,message,line_channel_access_token)
+        logger.info("新規にブロックされたユーザーのチェックが完了しました")
+
+    except Exception as e:
+        import traceback
+        print(traceback.format_exc())
+        logger.error(f"エラーが発生しました: {e}")
+
 if __name__ == "__main__":
     # スケジューラーを設定
     scheduler = BlockingScheduler()
@@ -46,8 +68,17 @@ if __name__ == "__main__":
         name='未返信ユーザー通知',
         replace_existing=True
     )
+
+    scheduler.add_job(
+        send_notification_BlockUser,
+        trigger=IntervalTrigger(minutes=15),
+        id='notification_BlockUser_job',
+        name='新規にブロックされたユーザー通知',
+        replace_existing=True
+    )
     
     logger.info("スケジューラーを開始します（15分ごとに実行）")
+    logger.info("新規にブロックされたユーザーのチェックを開始します（15分ごとに実行）")
     logger.info("停止するには Ctrl+C を押してください")
     
     try:

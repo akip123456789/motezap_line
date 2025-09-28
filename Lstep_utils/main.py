@@ -1,12 +1,11 @@
-from Lstep_utils.login import login,account_select
+from Lstep_utils.login import login
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from Lstep_utils.utils import click_items_within, check_last_item_within, has_items_within
 import time
-
-
-
+from Lstep_utils.get_BlockUser import get_BlockUser
+from Lstep_utils.search import click_saved_search
 
 def main_flow(hours):
     driver=login()
@@ -46,6 +45,15 @@ def main_flow(hours):
             # 「続きをロード」ボタンがない場合はループを終了
             break
 
-
+    driver.quit()
     return post_list
 
+
+
+def main_BlockUser_flow():
+    driver=login()
+    driver.get("https://manager.linestep.net/line/show")
+    click_saved_search(driver)
+    user_list=get_BlockUser(driver)
+    driver.quit()
+    return user_list
