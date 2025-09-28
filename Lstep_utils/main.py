@@ -6,6 +6,8 @@ from Lstep_utils.utils import click_items_within, check_last_item_within, has_it
 import time
 from Lstep_utils.get_BlockUser import get_BlockUser
 from Lstep_utils.search import click_saved_search
+from Lstep_utils.get_timeline import get_timeline
+
 
 def main_flow(hours):
     driver=login()
@@ -55,5 +57,6 @@ def main_BlockUser_flow():
     driver.get("https://manager.linestep.net/line/show")
     click_saved_search(driver)
     user_list=get_BlockUser(driver)
+    send_message_list=get_timeline(driver,user_list)
     driver.quit()
-    return user_list
+    return send_message_list

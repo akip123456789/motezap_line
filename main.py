@@ -43,7 +43,7 @@ def send_notification_BlockUser():
         user_list=main_BlockUser_flow()
         message="[通知]新規にブロックされたユーザー\n"
         for user in user_list:
-            message+=f"名前:{user[0]}\n MenberId:{user[1]}\n\n"
+            message+=f"{user[0]}({user[1]})\nカレンダー:{user[2]}\n日付:{user[3]}\n予約枠:{user[4]}\n\n"
             if len(message) > 4600:
                 send_message(line_group_id,message,line_channel_access_token)
                 message="[通知]新規にブロックされたユーザー（続き）\n"

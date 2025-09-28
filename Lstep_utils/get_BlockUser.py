@@ -67,12 +67,6 @@ def get_BlockUser(driver):
                 if exists:
                     continue
 
-                block_user = BlockUser(
-                    username=name,
-                    user_menberid=menberid,
-                    time=datetime.now(pytz.timezone('Asia/Tokyo'))
-                )
-                session.add(block_user)
                 user_list.append([name,menberid])
                 
 
@@ -82,8 +76,6 @@ def get_BlockUser(driver):
         
         if not go_to_next_page_and_check(driver):
             break
-    
-    session.commit()
 
     session.close()
     return user_list
