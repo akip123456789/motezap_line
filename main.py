@@ -21,14 +21,14 @@ def send_notification():
     try:
         logger.info("未返信ユーザーのチェックを開始します")
         post_list=main_flow(hours=10)
-        message="[通知]未返信のユーザー\n"    
+        message="未返信のユーザー\n"    
         for post in post_list:        
-            message+=f"名前:{post[0]}\n個別トークURL:{post[1]}\n\n"
+            message+=f"\n名前:{post[0]}\n個別トークURL:{post[1]}"
             if len(message) > 4600:
                 send_message(line_group_id,message,line_channel_access_token)
-                message="[通知]未返信のユーザー（続き）\n"
+                message="未返信のユーザー（続き）\n"
 
-        if len(message) > len("[通知]未返信のユーザー（続き）\n"):
+        if len(message) > len("未返信のユーザー（続き）\n"):
             send_message(line_group_id,message,line_channel_access_token)
         
         logger.info("未返信ユーザーのチェックが完了しました")
@@ -41,13 +41,13 @@ def send_notification_BlockUser():
     try:
         logger.info("ブロックユーザーのチェックを開始します")
         user_list=main_BlockUser_flow()
-        message="[通知]新規にブロックされたユーザー\n"
+        message="新規にブロックされたユーザー\n"
         for user in user_list:
-            message+=f"{user[0]}({user[1]})\nカレンダー:\n{user[2]}\n日付:\n{user[3]}\n予約枠:\n{user[4]}\n\n"
+            message+=f"\n{user[0]}({user[1]})\nカレンダー:\n{user[2]}\n日付:\n{user[3]}\n予約枠:\n{user[4]}"
             if len(message) > 4600:
                 send_message(line_group_id,message,line_channel_access_token)
-                message="[通知]新規にブロックされたユーザー（続き）\n"
-        if len(message) > len("[通知]新規にブロックされたユーザー（続き）\n"):
+                message="新規にブロックされたユーザー（続き）\n"
+        if len(message) > len("新規にブロックされたユーザー（続き）\n"):
             send_message(line_group_id,message,line_channel_access_token)
         logger.info("新規にブロックされたユーザーのチェックが完了しました")
 

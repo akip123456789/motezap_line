@@ -43,8 +43,6 @@ def get_timeline(driver,user_list):
         today = datetime.now(pytz.timezone('Asia/Tokyo')).date()
         if date_obj < today:
             continue
-
-        date = date_only 
         slot = tds[3].text.strip()
 
         
@@ -56,7 +54,7 @@ def get_timeline(driver,user_list):
             time=datetime.now(pytz.timezone('Asia/Tokyo'))
         )
         db_sessions.add(send_message)
-        send_message_list.append([user[0],user[1],calendar,date,slot])
+        send_message_list.append([user[0],user[1],calendar,date_str,slot])
 
     db_sessions.commit()
     db_sessions.close()
