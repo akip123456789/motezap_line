@@ -36,8 +36,19 @@ def get_timeline(driver,user_list):
 
         tds = driver.execute_script("return arguments[0].querySelectorAll('td')", rows[0])
         calendar = tds[1].text.strip()
-        date = tds[2].text.strip()  # ← 加工せずそのまま
+        date_str = tds[2].text.strip()  # 例: "2025/09/24(水) \n14:00 〜 14:30"
+        # 日付部分のみ抽出（例: "2025/09/24"）
+        date_only = date_str.split("(")[0].strip()
+        date_obj = datetime.strptime(date_only, "%Y/%m/%d").date()
+        today = datetime.now(pytz.timezone('Asia/Tokyo')).date()
+        if date_obj < today:
+            continue
+
+        date = date_only 
         slot = tds[3].text.strip()
+
+        
+
 
         send_message = BlockUser(
             username=user[0],
