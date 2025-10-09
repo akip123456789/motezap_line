@@ -6,7 +6,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 import logging
 from Lstep_utils.main import main_BlockUser_flow
-
+from clear_tmp import clear_tmp
 # ログ設定
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -20,6 +20,7 @@ def send_notification():
     """未返信ユーザーの通知を送信する関数"""
     try:
         logger.info("未返信ユーザーのチェックを開始します")
+        clear_tmp()
         post_list=main_flow(hours=10)
         message="未返信のユーザー\n"    
         for post in post_list:        
@@ -40,6 +41,7 @@ def send_notification_BlockUser():
     """ブロックユーザーの通知を送信する関数"""
     try:
         logger.info("ブロックユーザーのチェックを開始します")
+        clear_tmp()
         user_list=main_BlockUser_flow()
         message="新規にブロックされたユーザー\n"
         for user in user_list:
