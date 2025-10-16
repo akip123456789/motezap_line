@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 from .base import Base
 from .Models.Posted import Posted
 from .Models.BlockUser import BlockUser
+from .Models.BookingCheck import Bookingcheck
 load_dotenv()
 
 db_password=os.getenv("DB_PASSWORD")
