@@ -124,7 +124,7 @@ def main_booking_check():
             print(f"start_time {start_time} は現在時刻の1時間以内です")
         else:
             print(f"start_time {start_time} は現在時刻の1時間以内ではありません")
-            # continue
+            continue
             
         driver.get(f"https://manager.linestep.net/line/visual?show=detail&member={memberid[1]}")
         phone = get_phone_number(driver)
