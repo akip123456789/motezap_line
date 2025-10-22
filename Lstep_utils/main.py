@@ -140,6 +140,7 @@ def main_booking_check():
 
     db_session.commit()
     db_session.close()
+    driver.quit()
     return userdata
 
 
